@@ -65,8 +65,7 @@ def start_scrape():
         for product in category:
             if product['name'] not in check_names:
                 product_list.append(product)
-                check_names.append(product['name']) 
-    print(check_names)
+                check_names.append(product['name'])
     return(product_list)
 
 start_scrape()
