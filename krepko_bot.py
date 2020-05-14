@@ -61,4 +61,4 @@ def start_bot():
 #    time.sleep(1)
 while 1:
     start_bot()
-    time.sleep(1800)
+    time.sleep(120)
