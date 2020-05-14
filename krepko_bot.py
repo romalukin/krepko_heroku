@@ -36,7 +36,7 @@ def bot_sendtext(bot_message: str) -> None:
     if len(bot_message) > 0:
         send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, bot_message)
         requests.get(send_text)
-        print("Message sent")
+        print("Message sent. Message: {}".format(bot_message))
     else:
         print("Nothing has changed. Nothing to send")
 
