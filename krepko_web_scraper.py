@@ -64,5 +64,4 @@ def start_scrape():
             product_list.append(product) 
     return(product_list)
 
-start_scrape()
 
