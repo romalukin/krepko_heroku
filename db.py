@@ -50,5 +50,6 @@ def select_product(name: str) -> dict:
 def delete_products() -> None:
     ''' Delete products '''
     products = session.query(Products).all()
-    session.delete(products)
+    for product in products:
+        session.delete(product)
     session.commit()
