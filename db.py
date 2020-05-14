@@ -39,15 +39,15 @@ def insert_product(name = '', old_price = 0, sale = 0, price = 0, category = '',
 def select_product(name: str) -> dict:
     ''' Select product '''
     session = Session()
-    if session.query(Products).filter(Products.name==name).one():
-        try:
+    try:
+        if session.query(Products).filter(Products.name==name).one():
             db_product = session.query(Products).filter(Products.name==name).one()
-        except MultipleResultsFound:
-            print ('MultipleResultsFound')
-            # Deal with it
-        except NoResultFound:
-            print ('NoResultFound')
-    # Deal with that as well
+    except MultipleResultsFound:
+        print ('MultipleResultsFound')
+        # Deal with it
+    except NoResultFound:
+        print ('NoResultFound')
+        # Deal with that as well
         output= {
                 'name': db_product.name, 
                 'category': db_product.category,
