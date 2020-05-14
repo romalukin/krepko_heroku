@@ -42,22 +42,22 @@ def select_product(name: str) -> dict:
     try:
         if session.query(Products).filter(Products.name==name).one():
             db_product = session.query(Products).filter(Products.name==name).one()
-    except MultipleResultsFound:
-        print ('MultipleResultsFound')
-        # Deal with it
-    except NoResultFound:
-        print ('NoResultFound')
-        # Deal with that as well
-        output= {
+            output= {
                 'name': db_product.name, 
                 'category': db_product.category,
                 'url':db_product.url,
                 'old_price':db_product.old_price,
                 'price':db_product.price}   
-        result = {'status':True,'output':output}
-    else:
-        result = {'status':False,'output': ''}
-    session.close()   
+            result = {'status':True,'output':output}
+        else:
+            result = {'status':False,'output': ''}
+        session.close()
+    except MultipleResultsFound:
+        print ('MultipleResultsFound')
+        # Deal with it
+    except NoResultFound:
+        print ('NoResultFound')
+        # Deal with that as well   
     return result 
 
 def delete_products() -> None:
