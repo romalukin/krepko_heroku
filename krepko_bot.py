@@ -62,5 +62,9 @@ def start_bot():
 while 1:
     print("Start!!!!!!")
     start_bot()
-    print("Sleeping 2 min")
-    time.sleep(120)
+    print("Sleeping 120 sec")
+    clock = 120
+    while clock != 0:
+        print("Left {} seconds...".format(clock))
+        time.sleep(30)
+        clock = clock - 30
