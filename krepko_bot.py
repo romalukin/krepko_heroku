@@ -12,7 +12,7 @@ def compare(product_list: list) -> str:
     compare_string = ''
     for card in product_list:
         selector = db.select_product(card['name'])
-        if selector['status'] == False:
+        if selector['status']:
             product = {
                     'name': card['name'],
                     'old_price': selector['output']['price'],

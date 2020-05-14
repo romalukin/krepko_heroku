@@ -44,9 +44,11 @@ def select_product(name: str) -> dict:
                 'url':db_product.url,
                 'old_price':db_product.old_price,
                 'price':db_product.price}   
-        session.close()   
-        return {'status':True,'output':output}
-    else: return {'status':False,'output': ''}
+        result = {'status':True,'output':output}
+    else:
+        result = {'status':False,'output': ''}
+    session.close()   
+    return result 
 
 def delete_products() -> None:
     ''' Delete products '''
