@@ -39,6 +39,8 @@ def bot_sendtext(bot_message: str) -> None:
         print("Message sent. Message: {}".format(bot_message))
     else:
         print("Nothing has changed. Nothing to send")
+    send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, 'это сообщение из хероку')
+    requests.get(send_text)
 
 def db_maintain(product_list: list) -> None:
     print("Start clearing table in db and inserting new products")
