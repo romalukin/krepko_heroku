@@ -1,5 +1,4 @@
 import requests
-import xlsxwriter
 from bs4 import BeautifulSoup
 
 
