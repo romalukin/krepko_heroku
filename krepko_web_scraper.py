@@ -67,5 +67,3 @@ def start_scrape():
                 product_list.append(product)
                 check_names.append(product['name'])
     return(product_list)
-
-start_scrape()
