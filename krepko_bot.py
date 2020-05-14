@@ -55,7 +55,10 @@ def start_bot():
     db_maintain(product_list)
     return
 
-schedule.every(30).minutes.do(start_bot)
+#schedule.every(30).minutes.do(start_bot)
+#while 1:
+#    schedule.run_pending()
+#    time.sleep(1)
 while 1:
-    schedule.run_pending()
-    time.sleep(1)
+    start_bot()
+    time.sleep(1800)
