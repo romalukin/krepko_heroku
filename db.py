@@ -24,18 +24,16 @@ class Products(Base):
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
+session = Session()
 
 def insert_product(name = '', old_price = 0, sale = 0, price = 0, category = '', url = '')->None:
     ''' Insert product '''
-    session=Session()
     db_product =Products( name=name, category= category,url=url,price=price,sale=sale)
     session.add(db_product)
     session.commit()   
-    session.close()
 
 def select_product(name: str) -> dict:
     ''' Select product '''
-    session=Session()
     if session.query(Products).filter(Products.name==name).scalar():
         db_product = session.query(Products).filter(Products.name==name).one()
         output= {
@@ -46,14 +44,11 @@ def select_product(name: str) -> dict:
                 'price':db_product.price}   
         result = {'status':True,'output':output}
     else:
-        result = {'status':False,'output': ''}
-    session.close()   
+        result = {'status':False,'output': ''}   
     return result 
 
 def delete_products() -> None:
     ''' Delete products '''
-    session=Session()
     products = session.query(Products).all()
     session.delete(products)
     session.commit()
-    session.close
