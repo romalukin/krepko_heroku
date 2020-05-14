@@ -60,5 +60,7 @@ def start_bot():
 #    schedule.run_pending()
 #    time.sleep(1)
 while 1:
+    print("Start!!!!!!")
     start_bot()
+    print("Sleeping 2 min")
     time.sleep(120)
