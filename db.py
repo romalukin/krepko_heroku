@@ -39,25 +39,19 @@ def insert_product(name = '', old_price = 0, sale = 0, price = 0, category = '',
 def select_product(name: str) -> dict:
     ''' Select product '''
     session = Session()
-    try:
-        if session.query(Products).filter(Products.name==name).one():
-            db_product = session.query(Products).filter(Products.name==name).one()
-            output= {
-                'name': db_product.name, 
-                'category': db_product.category,
-                'url':db_product.url,
-                'old_price':db_product.old_price,
-                'price':db_product.price}   
-            result = {'status':True,'output':output}
-        else:
-            result = {'status':False,'output': ''}
-        session.close()
-    except MultipleResultsFound:
-        print ('MultipleResultsFound')
-        # Deal with it
-    except NoResultFound:
-        print ('NoResultFound')
-        # Deal with that as well   
+    if session.query(Products).filter(Products.name==name).scalar():
+        db_product = session.query(Products).filter(Products.name==name).one()
+        output = {
+            'name': db_product.name, 
+            'category': db_product.category,
+            'url':db_product.url,
+            'old_price':db_product.old_price,
+            'price':db_product.price
+        }   
+        result = {'status':True,'output':output}
+    else:
+        result = {'status':False,'output': ''}
+    session.close()  
     return result 
 
 def delete_products() -> None:

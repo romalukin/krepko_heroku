@@ -20,7 +20,7 @@ def get_catalog(url_link: str) -> dict:
     print("Web scraping done")
     return catalog
 
-def get_products(catalog_name: str, url_link: str) -> list:
+def get_products(catalog_name: str, url_link: str, product_names: list) -> list:
     print("Starting  web scraping {}".format(url_link))
     url_home = 'https://krepkoshop.com'
     product_list = []
@@ -48,17 +48,23 @@ def get_products(catalog_name: str, url_link: str) -> list:
             product['sale'] = int(card.find('span', {'class':'sale-compare-block'}).contents[1].string.lstrip(' (-').rstrip('%)'))
         else:
             product['old_price'] = product['price']   
-        product_list.append(product)
+        if product['name'] not in product_names:
+            product_list.append(product)
+            product_names.append(product['name'])
     print("Web scraping done")
-    return product_list
+    return product_list, product_names
 
 def start_scrape():
     category_list = []
     product_list = []
+    product_names = []
     #krepko site
     catalog = get_catalog("https://krepkoshop.com/category/")
     for category in catalog:
-        category_list.append(get_products(category, catalog[category]))
+        products = get_products(category, catalog[category], product_names)
+        category_list.append(products[0])
+        for name in products[1]:
+            product_names.append(name)
     for category in category_list:
         for product in category:
             product_list.append(product) 
