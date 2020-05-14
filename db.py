@@ -3,6 +3,8 @@ from sqlalchemy import Table, Column,DateTime, Integer, String, Float,LargeBinar
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
 from sqlalchemy.sql import func
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound
 
 
 db_url=os.environ['DATABASE_URL']
@@ -38,7 +40,14 @@ def select_product(name: str) -> dict:
     ''' Select product '''
     session = Session()
     if session.query(Products).filter(Products.name==name).scalar():
-        db_product = session.query(Products).filter(Products.name==name).one()
+        try:
+            db_product = session.query(Products).filter(Products.name==name).one()
+        except MultipleResultsFound:
+            print ('MultipleResultsFound')
+            # Deal with it
+        except NoResultFound:
+            print ('NoResultFound')
+    # Deal with that as well
         output= {
                 'name': db_product.name, 
                 'category': db_product.category,
