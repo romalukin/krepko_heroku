@@ -7,6 +7,7 @@ import db
 
 
 def compare(product_list: list) -> str:
+    print("Starting compare")
     compare_list = []
     compare_string = ''
     for card in product_list:
@@ -24,19 +25,27 @@ def compare(product_list: list) -> str:
     for card in compare_list:
         compare_string.append('наименование: {}\nстарая цена: {}\nцена: {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
     compare_string = ''.join(compare_string)
+    print("Compare comlete")
     return compare_string
 
 def bot_sendtext(bot_message: str) -> None:
-	### Send text message
-	bot_token = os.environ['TOKEN']
-	bot_chatID = os.environ['CHAT_ID']
-	send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, bot_message)
-	requests.get(send_text)
+    ### Send text message
+    print("Sending message")
+    bot_token = os.environ['TOKEN']
+    bot_chatID = os.environ['CHAT_ID']
+    if len(bot_message) > 0:
+        send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, bot_message)
+        requests.get(send_text)
+        print("Message sent")
+    else:
+        print("Nothing has changed. Nothing to send")
 
 def db_maintain(product_list: list) -> None:
+    print("Start clearing table in db and inserting new products")
     db.delete_products()
     for card in product_list:
         db.insert_product(card['name'], card['old_price'], card['sale'], card['price'], card['category'], card['url'])
+    print("Done clearing and inserting")
     return
 
 def start_bot():

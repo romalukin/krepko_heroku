@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 
 def get_catalog(url_link: str) -> dict:
+    print("Starting web scraping https://krepkoshop.com/category/")
     urls = []
     category_list= []
     #get the html of site 
@@ -16,9 +17,11 @@ def get_catalog(url_link: str) -> dict:
         urls.append(url_link + str(cat.find('a')['href']).replace('/category/', ''))
         category_list.append(cat.find('span').string)
     catalog = dict(zip(category_list, urls))
+    print("Web scraping done")
     return catalog
 
 def get_products(catalog_name: str, url_link: str) -> list:
+    print("Starting  web scraping {}".format(url_link))
     url_home = 'https://krepkoshop.com'
     product_list = []
     #get the html of site 
@@ -46,6 +49,7 @@ def get_products(catalog_name: str, url_link: str) -> list:
         else:
             product['old_price'] = product['price']   
         product_list.append(product)
+    print("Web scraping done")
     return product_list
 
 def start_scrape():
