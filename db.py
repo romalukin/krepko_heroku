@@ -39,7 +39,7 @@ def insert_product(name = '', old_price = 0, sale = 0, price = 0, category = '',
 def select_product(name: str) -> dict:
     ''' Select product '''
     session = Session()
-    if session.query(Products).filter(Products.name==name).scalar():
+    if session.query(Products).filter(Products.name==name).one():
         try:
             db_product = session.query(Products).filter(Products.name==name).one()
         except MultipleResultsFound:
