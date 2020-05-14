@@ -11,7 +11,7 @@ Base = declarative_base()
 metadata = MetaData()
 
 class Products(Base):
-    __tablename__='products'
+    tablename='products'
     id = Column(Integer, primary_key=True)
     name = Column( String(100) )
     old_price = Column( Integer )
