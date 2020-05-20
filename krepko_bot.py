@@ -6,7 +6,7 @@ import krepko_web_scraper
 import db
 
 
-def compare(product_list: list) -> str:
+def compare(product_list: list) -> list:
     print("Starting compare")
     compare_list = []
     compare_string = ''
@@ -23,20 +23,21 @@ def compare(product_list: list) -> str:
             compare_list.append(product)
     compare_string = []
     for card in compare_list:
-        compare_string.append('наименование: {}\nстарая цена: {}\nцена: {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
-    compare_string = ''.join(compare_string)
+        compare_string.append('наименование: {}\nцена: {} -> {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
+    #compare_string = ''.join(compare_string)
     print("Compare comlete")
     return compare_string
 
-def bot_sendtext(bot_message: str) -> None:
+def bot_sendtext(bot_message: list) -> None:
     ### Send text message
     print("Sending message")
     bot_token = os.environ['TOKEN']
     bot_chatID = os.environ['CHAT_ID']
     if len(bot_message) > 0:
-        send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, bot_message)
-        requests.get(send_text)
-        print("Message sent. Message: {}".format(bot_message))
+        for message in bot_message:
+            send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, message)
+            requests.get(send_text)
+            print("Message sent. Message: {}".format(message))
     else:
         print("Nothing has changed. Nothing to send")
 
@@ -50,8 +51,8 @@ def db_maintain(product_list: list) -> None:
 
 def start_bot():
     product_list = krepko_web_scraper.start_scrape()
-    compare_string = compare(product_list) 
-    bot_sendtext(compare_string)
+    compare_list = compare(product_list) 
+    bot_sendtext(compare_list)
     db_maintain(product_list)
     return
 
@@ -63,8 +64,4 @@ while 1:
     print("Start!!!!!!")
     start_bot()
     print("Sleeping 120 sec")
-    clock = 120
-    while clock != 0:
-        print("Left {} seconds...".format(clock))
-        time.sleep(30)
-        clock = clock - 30
+    time.sleep(120)
