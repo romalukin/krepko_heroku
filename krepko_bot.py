@@ -21,6 +21,15 @@ def compare(product_list: list) -> list:
                         'url': card['url']
                         }
                 compare_list.append(product)
+        else:
+            product = {
+                    'name': '~~~NEW~~~ ' + card['name'],
+                    'old_price': card['old_price'],
+                    'price': card['price'],
+                    'category': card['category'],
+                    'url': card['url']
+                    }
+            compare_list.append(product)
     compare_list_string = []
     for card in compare_list:
         compare_list_string.append('наименование: {}\nцена: {} -> {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
