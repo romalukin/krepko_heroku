@@ -9,24 +9,24 @@ import db
 def compare(product_list: list) -> list:
     print("Starting compare")
     compare_list = []
-    compare_string = ''
     for card in product_list:
         selector = db.select_product(card['name'])
-        if not selector['status']:
-            product = {
-                    'name': card['name'],
-                    'old_price': selector['output']['price'],
-                    'price': card['price'],
-                    'category': card['category'],
-                    'url': card['url']
-                    }
-            compare_list.append(product)
-    compare_string = []
+        if selector['status']:
+            if selector['output']['price'] != card['price']:
+                product = {
+                        'name': card['name'],
+                        'old_price': selector['output']['price'],
+                        'price': card['price'],
+                        'category': card['category'],
+                        'url': card['url']
+                        }
+                compare_list.append(product)
+    compare_list_string = []
     for card in compare_list:
-        compare_string.append('наименование: {}\nцена: {} -> {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
+        compare_list_string.append('наименование: {}\nцена: {} -> {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
     #compare_string = ''.join(compare_string)
     print("Compare comlete")
-    return compare_string
+    return compare_list_string
 
 def bot_sendtext(bot_message: list) -> None:
     ### Send text message
