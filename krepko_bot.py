@@ -39,6 +39,7 @@ def compare(product_list: list) -> list:
 
 def bot_sendtext(bot_message: list) -> None:
     ### Send text message
+    ####blabla
     print("Sending message")
     bot_token = os.environ['TOKEN']
     bot_chatID = os.environ['CHAT_ID']
