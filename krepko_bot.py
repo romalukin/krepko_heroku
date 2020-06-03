@@ -7,6 +7,7 @@ import db
 
 
 def compare(product_list: list) -> list:
+    # Gets list of dicts (products) and compare them with table in database, makes the list (of str) with messages (changes)
     print("Starting compare")
     compare_list = []
     for card in product_list:
@@ -33,13 +34,11 @@ def compare(product_list: list) -> list:
     compare_list_string = []
     for card in compare_list:
         compare_list_string.append('наименование: {}\nцена: {} -> {}\nкатегория: {}\nссылка: {}\n-----\n'.format(card['name'], card['old_price'], card['price'], card['category'], card['url']))
-    #compare_string = ''.join(compare_string)
     print("Compare comlete")
     return compare_list_string
 
 def bot_sendtext(bot_message: list) -> None:
-    ### Send text message
-    ####blabla
+    # Gets list of messages and send them to telegram channel
     print("Sending message")
     bot_token = os.environ['TOKEN']
     bot_chatID = os.environ['CHAT_ID']
@@ -47,11 +46,13 @@ def bot_sendtext(bot_message: list) -> None:
         for message in bot_message:
             send_text = u'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(bot_token, bot_chatID, message)
             requests.get(send_text)
-            print("Message sent. Message: {}".format(message))
+            print("Message sent. Message:\n{}".format(message))
+            time.sleep(2)
     else:
         print("Nothing has changed. Nothing to send")
 
 def db_maintain(product_list: list) -> None:
+    # Cleans table in database and insert new products 
     print("Start clearing table in db and inserting new products")
     db.delete_products()
     for card in product_list:
@@ -60,18 +61,15 @@ def db_maintain(product_list: list) -> None:
     return
 
 def start_bot():
+    # Main function
     product_list = krepko_web_scraper.start_scrape()
     compare_list = compare(product_list) 
     bot_sendtext(compare_list)
     db_maintain(product_list)
     return
 
-#schedule.every(2).minutes.do(start_bot)
-#while 1:
-#    schedule.run_pending()
-#    time.sleep(1)
 while 1:
     print("Start!!!!!!")
     start_bot()
-    print("Sleeping 120 sec")
-    time.sleep(120)
+    print("Sleeping 30 minutes")
+    time.sleep(1800)
