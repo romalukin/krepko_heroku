@@ -1,1 +1,1 @@
-web: python3 krepko_bot.py
+worker: python3 krepko_bot.py
